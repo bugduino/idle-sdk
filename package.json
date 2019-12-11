@@ -1,0 +1,28 @@
+{
+  "name": "@idle/sdk",
+  "version": "0.0.1",
+  "description": "Calculates Idle pool allocation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bugduino/@idle/sdk"
+  },
+  "main": "index.js",
+  "keywords": [
+    "idle.finance",
+    "ethereum",
+    "javascript",
+    "web3"
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "bignumber.js": "^9.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "web3": "^1.2.4"
+  }
+}
