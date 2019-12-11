@@ -395,7 +395,7 @@ async function calcAllocationsOldRateModel(newAmount, web3, addresses, cTokenCon
     ).div(j).times('2102400').times('100').integerValue(BigNumber.ROUND_FLOOR);
 
   const algo = (amount, currBestTokenAddr, bestRate, worstRate) => {
-    const isCompoundBest = currBestTokenAddr === cTokenContract.address;
+    const isCompoundBest = currBestTokenAddr === addresses.cAddress;
     let maxDAICompound;
     let maxDAIFulcrum;
     amount = BNify(amount);
@@ -496,7 +496,7 @@ async function calcAllocationsOldRateModel(newAmount, web3, addresses, cTokenCon
 
   const fulcrumCurr = targetSupplyRateWithFeeFulcrumFoo(0);
   const compoundCurr = targetSupplyRateWithFeeCompoundFoo(0);
-  const currBestAddress = fulcrumCurr.gt(compoundCurr) ? iTokenContract.address : cTokenContract.address;
+  const currBestAddress = fulcrumCurr.gt(compoundCurr) ? addresses.iAddress : addresses.cAddress;
   const bestRate = fulcrumCurr.gt(compoundCurr) ? fulcrumCurr : compoundCurr;
   const worstRate = fulcrumCurr.gt(compoundCurr) ? compoundCurr : fulcrumCurr;
 

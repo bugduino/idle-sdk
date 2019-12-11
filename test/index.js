@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const assert = require('chai').assert;
 const Web3 = require('web3');
 const BigNumber = require('bignumber.js');
@@ -15,12 +17,12 @@ const one = BNify('1000000000000000000');
 // };
 
 // // SAI main (old interest rate model)
-// const addressesSAIMain = {
-//   underlying: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359',
-//   idleAddress: '0xacf651aad1cbb0fd2c7973e2510d6f63b7e440c9',
-//   cAddress: '0xf5dce57282a584d2746faf1593d3121fcac444dc',
-//   iAddress: '0x14094949152eddbfcd073717200da82fed8dc960'
-// }
+const addressesSAIMain = {
+  underlying: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359',
+  idleAddress: '0xacf651aad1cbb0fd2c7973e2510d6f63b7e440c9',
+  cAddress: '0xf5dce57282a584d2746faf1593d3121fcac444dc',
+  iAddress: '0x14094949152eddbfcd073717200da82fed8dc960'
+}
 // // DAI main (new interest rate model)
 // const addressesDAIMain = {
 //   underlying: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -31,10 +33,11 @@ const one = BNify('1000000000000000000');
 
 describe('Test index', () => {
   it('calculateAllocations', async () => {
-    const YOUR_INFURA_KEY = '';
-    const web3 = new Web3(`https://kovan.infura.io/v3/${YOUR_INFURA_KEY}`);
+    const YOUR_INFURA_KEY = process.env.INFURA_KEY;
+    const web3 = new Web3(`https://mainnet.infura.io/v3/${YOUR_INFURA_KEY}`);
+    // const web3 = new Web3(`https://kovan.infura.io/v3/${YOUR_INFURA_KEY}`);
     const expectedVal = [BNify('1').times(one), BNify('2').times(one)];
-    const res = await calculateAllocations("100000000000000000000", web3, addressesSAIKovan);
+    const res = await calculateAllocations("100000000000000000000", web3, addressesSAIMain);
     assert(res[0] === expectedVal, 'Allocation for Compound is not correct');
     assert(res[1] === expectedVal, 'Allocation for Fulcrum is not correct');
   });
