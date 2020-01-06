@@ -14,20 +14,86 @@ $ yarn add @idle/sdk
 
 ## Usage
 
-```js
-const calculateAllocations = require("@idle/sdk");
+All examples are with DAI. If you want to calculate params for other assets eg USDC, you have to change the `addresses` param accordingly.
 
-// first parameter is the new amount of token you are supplying to Idle, it should be a bignumber instance or a string, in this example is `100` in wei
+#### getParamsForMint
+```js
+const idleSDK = require("@idle/sdk");
+
+// first parameter: the new amount of token (DAI) you are supplying. It should be an hex or a string
 // second parameter is a web3 instance like
-// const web3 = new Web3(`https://kovan.infura.io/v3/YOUR_INFURA_KEY`);
-// third parameter is an object like the following one
-// const addresses = {
-//   underlying: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2',
-//   idleAddress: '0x03f79C6bF275651106Cd172c1650E9a78585e3BA',
-//   cAddress: '0x3BD3f5b19BCB7f96d42cb6A9dE510ea6f9096355',
-//   iAddress: '0xA1e58F3B1927743393b25f261471E1f2D3D9f0F6'
-// };
-// NOTE: addresses should reflect the network choosen in the web3 providers, in this case kovan addresses
-const res = await calculateAllocations("100000000000000000000", web3, addresses);
-//=> []
+// const web3 = new Web3(`https://mainnet.infura.io/v3/YOUR_INFURA_KEY`);
+// third parameter is the account who will submit the tx, it's important
+// to use the actual account who will submit the tx because we are making a contract call with that account so it should have the correct balance which plan to mint
+// fourth param (optional) is a string with network used, default 'mainnet'
+// last param (optional) is a string with asset used, default 'DAI'
+const res = await idleSDK.getParamsForMint(
+  web3.utils.toHex("100000000000000000000"), // 100
+  web3,
+  '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef', // caller
+  'mainnet',
+  'DAI'
+);
+//=> [amountForCompound, amountForFulcrum]
+```
+### mint
+
+```js
+// There is also a convenient method to get parameters and also directly make the mint tx (caller account must be unlocked), all params are the same as `getParamsForMint`
+const res = await idleSDK.mint(
+  web3.utils.toHex("100000000000000000000"), // 100
+  web3,
+  '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef' // caller
+);
+```
+
+#### getParamsForRedeem
+```js
+const idleSDK = require("@idle/sdk");
+
+// first parameter: the amount of idle token (idleDAI) you want to burn. It should be an hex or a string
+// second parameter is wheter to skip the rebalance or not. It should be `false`
+// all other params are the same of `getParamsForMint`
+const res = await idleSDK.getParamsForRedeem(
+  web3.utils.toHex("100000000000000000000"), // 100
+  false,
+  web3,
+  '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef' // caller
+);
+//=> [amountForCompound, amountForFulcrum]
+```
+
+### redeem
+```js
+// There is also a convenient method to get parameters and also directly make the redeem tx (caller account must be unlocked), all params are the same as `getParamsForRedeem`
+const res = await idleSDK.redeem(
+  web3.utils.toHex("100000000000000000000"), // 100
+  false,
+  web3,
+  '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef' // caller
+);
+```
+
+#### getParamsForRebalance
+```js
+const idleSDK = require("@idle/sdk");
+
+// first parameter: the new amount of token (DAI) you are supplying, it could be 0 in case you don't want to mint any new amount. It should be an hex or a string
+// all other params are the same of `getParamsForMint`
+const res = await idleSDK.getParamsForRebalance(
+  web3.utils.toHex("100000000000000000000"), // 100
+  web3,
+  '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef' // caller
+);
+//=> [amountForCompound, amountForFulcrum]
+```
+### mint
+
+```js
+// There is also a convenient method to get parameters and also directly make the rebalance tx (caller account must be unlocked), all params are the same as `getParamsForMint`
+const res = await idleSDK.mint(
+  web3.utils.toHex("100000000000000000000"), // 100
+  web3,
+  '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef' // caller
+);
 ```
