@@ -6,21 +6,19 @@ const addresses = {
   mainnet: {
     DAI: {
       underlying: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
-      // TODO change this
-      idleAddress: '',
+      idleAddress: '0x10eC0D497824e342bCB0EDcE00959142aAa766dD',
       cAddress: '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643',
       iAddress: '0x493C57C4763932315A328269E1ADaD09653B9081'
     },
     SAI: {
       underlying: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359',
-      // TODO change this
-      idleAddress: '',
+      idleAddress: '0xC79764398a159Ea8E61AF98d7dA6f2C8CaE4c3A9',
       cAddress: '0xf5dce57282a584d2746faf1593d3121fcac444dc',
       iAddress: '0x14094949152eddbfcd073717200da82fed8dc960'
     },
     USDC: {
       underlying: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-      idleAddress: '',
+      idleAddress: '0xeB66ACc3d011056B00ea521F8203580C2E5d3991',
       cAddress: '0x39AA39c021dfbaE8faC545936693aC917d5E7563',
       iAddress: '0xF013406A0B1d544238083DF0B93ad0d2cBE0f65f'
     }
@@ -57,7 +55,7 @@ function sortAmounts(resGetParams, network = 'mainnet', asset = 'DAI') {
 
 async function getAllocations(method, getParamsMethod, methodParams, web3, caller, network = 'mainnet', asset = 'DAI') {
   const idleTokenContract = new web3.eth.Contract(IdleToken, addresses[network][asset].idleAddress);
-  const resGetParams = await idleTokenContract.methods[getParamsMethod](...methodParams).call({from: caller}).catch(err => {
+  const resGetParams = await idleTokenContract.methods[getParamsMethod](...methodParams).call({from: caller, gas: "5000000"}).catch(err => {
     console.log(`Error with ${getParamsMethod} -- ${err.message}`);
   });
   return sortAmounts(resGetParams, network, asset);
