@@ -12,8 +12,8 @@ describe('Test index', () => {
   it('getParamsForMint', async () => {
     const YOUR_INFURA_KEY = process.env.INFURA_KEY;
     // const web3 = new Web3(`http://127.0.0.1:8545`);
-    // const web3 = new Web3(`https://mainnet.infura.io/v3/${YOUR_INFURA_KEY}`);
-    const web3 = new Web3(`https://kovan.infura.io/v3/${YOUR_INFURA_KEY}`);
+    const web3 = new Web3(`https://mainnet.infura.io/v3/${YOUR_INFURA_KEY}`);
+    // const web3 = new Web3(`https://kovan.infura.io/v3/${YOUR_INFURA_KEY}`);
 
     // ***NOTE*** one should first approve the Idle contract used
 
@@ -26,7 +26,7 @@ describe('Test index', () => {
       web3.utils.toHex(BNify("1000000000000000000")), // 1
       web3,
       '0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef', // caller
-      'kovan',
+      'mainnet',
       'DAI'
     );
     console.log(res.map(amount => BNify(amount).div(one).toString()));
