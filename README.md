@@ -14,7 +14,7 @@ $ yarn add @idle/sdk
 
 ## Usage
 
-All examples are with DAI. If you want to calculate params for other assets eg USDC, you have to change the `addresses` param accordingly.
+All examples are with DAI. If you want to calculate params for other assets eg USDC, you have to change the last parameter accordingly (eg. 'USDC' instead of 'DAI').
 
 #### getParamsForMint
 ```js
